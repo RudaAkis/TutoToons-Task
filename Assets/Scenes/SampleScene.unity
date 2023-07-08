@@ -156,6 +156,8 @@ MonoBehaviour:
   camera: {fileID: 519420031}
   parentCanvas: {fileID: 2133658189}
   button: {fileID: 8680580417141983586, guid: 39e2389163b16b244b9e78405bfba154, type: 3}
+  pointNumberText: {fileID: 6160938332767914306, guid: fe64a9a0c3570ea49b0ed385cfda3c77, type: 3}
+  textRect: {fileID: 2385976932522292690, guid: fe64a9a0c3570ea49b0ed385cfda3c77, type: 3}
 --- !u!4 &81276753
 Transform:
   m_ObjectHideFlags: 0
@@ -282,9 +284,9 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0.96500003, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -17, y: 0}
-  m_SizeDelta: {x: 28, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &475676178
 MonoBehaviour:
