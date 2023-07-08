@@ -19,13 +19,14 @@ public class DataHandler : MonoBehaviour
     private LevelData levelData;// Reference to the object that stores all the arrays of the JSON file
 
 
-    private void LoadData()
+    public LevelData LoadData()
     {
         using (StreamReader reader = new StreamReader(filePath))
         {
             string jsonRaw = reader.ReadToEnd();//Reads the whole JSON file and returns the raw data
             levelData = JsonUtility.FromJson<LevelData>(jsonRaw);//Formats the JSON files' raw data into the appropriate classes
         }
+        return levelData;
     } 
 
     public void TestPrint()
