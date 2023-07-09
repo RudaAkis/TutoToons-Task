@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System;
+using System.Linq;
 
 public class GameController : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class GameController : MonoBehaviour
     LevelData levelData;
 
     public List<Point> points = new List<Point>();
+    public List<GameObject> instantiatedPoints = new List<GameObject>();
 
     public GameObject pointPrefab;
     public Camera camera;
@@ -21,8 +23,11 @@ public class GameController : MonoBehaviour
     IDictionary<TextMeshProUGUI, GameObject> pointsAndPointNumbers = new Dictionary<TextMeshProUGUI, GameObject>();
 
     PointController pointController;
-    
+    [HideInInspector]
     public int PrieviousClickedButtonNumber = 0;
+
+    public LineRenderer lineRenderer;
+    public float lineAnimationDuration = 5.0f;
 
     
     void Start()
@@ -30,7 +35,8 @@ public class GameController : MonoBehaviour
         dataHandlerScript = GameObject.FindGameObjectWithTag("DataHandler").GetComponent<DataHandler>();//Getting a reference to the script
         levelData = dataHandlerScript.LoadData();//Retrieving all of the data
         points = AssignPointCoordinates(1);
-        createPointsOnScreen(points);
+        instantiatedPoints = createPointsOnScreen(points);
+        StartCoroutine(drawLine(instantiatedPoints));
     }
     //Create a list of points
     public List<Point> AssignPointCoordinates(int arrayNumber)//Array number says which row of data is used from the json retrieved array of data
@@ -44,7 +50,7 @@ public class GameController : MonoBehaviour
         return points;
     }
 
-    public void createPointsOnScreen(List<Point> points)
+    public List<GameObject> createPointsOnScreen(List<Point> points)
     {
         foreach (var point in points)
         {
@@ -64,20 +70,38 @@ public class GameController : MonoBehaviour
             RectTransformUtility.ScreenPointToLocalPointInRectangle(parentCanvas, screenPosition, camera, out anchorPosition);
             button.anchoredPosition = anchorPosition;
             instantiatedObject.transform.SetParent(GameObject.FindGameObjectWithTag("Canvas").transform, false);
-
+            //Reassign the new coordinates according to the width and height of the screen
+            point.x = (int)screenPosition.x;
+            point.y = (int)screenPosition.y;
             //Assigne the Point data from the list to each individual point created
             pointController = instantiatedObject.GetComponent<PointController>();
             pointController.pointInPointController = point;
+            
+            instantiatedPoints.Add(instantiatedObject);
         }
+        return instantiatedPoints;
     }
-    public void drawLine()
+    
+    public IEnumerator drawLine(List<GameObject> instantiatedPoints)
     {
+        lineRenderer = Instantiate(lineRenderer, instantiatedPoints.ElementAt(0).transform.position, Quaternion.identity);
+        float startTime = Time.time;
+        lineRenderer.SetPosition(0,instantiatedPoints.ElementAt(0).transform.position);
+        Vector3 startPosition = instantiatedPoints.ElementAt(0).transform.position;
+        Vector3 endPosition = instantiatedPoints.ElementAt(1).transform.position;
+
+        Vector3 pos = startPosition;
+
+        while(pos != endPosition)
+        {
+            float t = (Time.time - startTime) / lineAnimationDuration;
+            pos = Vector3.Lerp(startPosition, endPosition, t);
+            lineRenderer.SetPosition(1, pos);
+            yield return null;
+        }
 
     }
-    // public bool lineFinished()
-    // {
-
-    // }
+    
 }
 
             // buttonText = instantiatedObject.GetComponent<TextMeshProUGUI>();

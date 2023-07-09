@@ -152,6 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5abf62848b42e3b4b9d7d74e6e168a74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  instantiatedPoints: []
   pointPrefab: {fileID: 5309689887529414449, guid: 39e2389163b16b244b9e78405bfba154, type: 3}
   camera: {fileID: 519420031}
   parentCanvas: {fileID: 2133658189}
@@ -159,6 +160,8 @@ MonoBehaviour:
   pointNumberText: {fileID: 6160938332767914306, guid: fe64a9a0c3570ea49b0ed385cfda3c77, type: 3}
   textRect: {fileID: 2385976932522292690, guid: fe64a9a0c3570ea49b0ed385cfda3c77, type: 3}
   PrieviousClickedButtonNumber: 0
+  lineRenderer: {fileID: 2223394409018490299, guid: d153335c55fd2a6419e350c1bd5cc0ba, type: 3}
+  lineAnimationDuration: 5
 --- !u!4 &81276753
 Transform:
   m_ObjectHideFlags: 0
