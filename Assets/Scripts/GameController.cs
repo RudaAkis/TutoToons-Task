@@ -23,7 +23,7 @@ public class GameController : MonoBehaviour
     {
         dataHandlerScript = GameObject.FindGameObjectWithTag("DataHandler").GetComponent<DataHandler>();//Getting a reference to the script
         levelData = dataHandlerScript.LoadData();//Retrieving all of the data
-        points = AssignPointCoordinates(2);
+        points = AssignPointCoordinates(1);
         createPointsOnScreen(points);
     }
     //Create a list of points
@@ -42,12 +42,14 @@ public class GameController : MonoBehaviour
     {
         foreach (var point in points)
         {
+            //Create the text for the button    
             TextMeshProUGUI instantiatedText = Instantiate(pointNumberText, textRect.anchoredPosition, Quaternion.identity);
             Vector2 textScreenPosition = new Vector2(point.x + 100, (point.y / 2) + 150);//world position
             Vector2 anchorPosition;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(parentCanvas, textScreenPosition, camera, out anchorPosition);
             textRect.anchoredPosition = anchorPosition;
             instantiatedText.transform.SetParent(GameObject.FindGameObjectWithTag("Canvas").transform, false);
+            instantiatedText.SetText(point.pointNumber.ToString());
 
             //Instantiating the button object
             GameObject instantiatedObject = Instantiate(pointPrefab, button.anchoredPosition, Quaternion.identity);
@@ -56,7 +58,6 @@ public class GameController : MonoBehaviour
             RectTransformUtility.ScreenPointToLocalPointInRectangle(parentCanvas, screenPosition, camera, out anchorPosition);
             button.anchoredPosition = anchorPosition;
             instantiatedObject.transform.SetParent(GameObject.FindGameObjectWithTag("Canvas").transform, false);
-            
         }
     }
 }
