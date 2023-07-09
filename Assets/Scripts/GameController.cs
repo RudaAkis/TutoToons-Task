@@ -18,12 +18,13 @@ public class GameController : MonoBehaviour
 
     public TextMeshProUGUI pointNumberText;
     public RectTransform textRect;
+    IDictionary<TextMeshProUGUI, GameObject> pointsAndPointNumbers = new Dictionary<TextMeshProUGUI, GameObject>();
 
     void Start()
     {
         dataHandlerScript = GameObject.FindGameObjectWithTag("DataHandler").GetComponent<DataHandler>();//Getting a reference to the script
         levelData = dataHandlerScript.LoadData();//Retrieving all of the data
-        points = AssignPointCoordinates(1);
+        points = AssignPointCoordinates(3);
         createPointsOnScreen(points);
     }
     //Create a list of points
@@ -38,27 +39,33 @@ public class GameController : MonoBehaviour
         return points;
     }
 
-    public void createPointsOnScreen(List<Point> points)
+    public IDictionary<TextMeshProUGUI, GameObject> createPointsOnScreen(List<Point> points)
     {
+        UnityEngine.Debug.Log(" Weidth of the screen : " + Screen.width);
+        UnityEngine.Debug.Log(" Height of the screen : " + Screen.height);
         foreach (var point in points)
         {
             //Create the text for the button    
             TextMeshProUGUI instantiatedText = Instantiate(pointNumberText, textRect.anchoredPosition, Quaternion.identity);
-            Vector2 textScreenPosition = new Vector2(point.x + 100, (point.y / 2) + 150);//world position
+            Vector2 textScreenPosition = new Vector2(point.x  , point.y );//world position
             Vector2 anchorPosition;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(parentCanvas, textScreenPosition, camera, out anchorPosition);
             textRect.anchoredPosition = anchorPosition;
             instantiatedText.transform.SetParent(GameObject.FindGameObjectWithTag("Canvas").transform, false);
             instantiatedText.SetText(point.pointNumber.ToString());
+            point.pointNumber = 0;
 
             //Instantiating the button object
             GameObject instantiatedObject = Instantiate(pointPrefab, button.anchoredPosition, Quaternion.identity);
-            Vector2 screenPosition = new Vector2(point.x + 100 ,(point.y / 2) + 150);//world position
+            Vector2 screenPosition = new Vector2( (( ( point.x * 100 ) / 1000 ) * Screen.width) / 100 , (( ( point.y * 100 ) / 1000 ) * Screen.height) / 100 );//world position
             //Conversion of the global position to local canvas as the parent position
             RectTransformUtility.ScreenPointToLocalPointInRectangle(parentCanvas, screenPosition, camera, out anchorPosition);
             button.anchoredPosition = anchorPosition;
             instantiatedObject.transform.SetParent(GameObject.FindGameObjectWithTag("Canvas").transform, false);
+
+            pointsAndPointNumbers.Add(instantiatedText, instantiatedObject);
         }
+        return pointsAndPointNumbers;
     }
 }
 

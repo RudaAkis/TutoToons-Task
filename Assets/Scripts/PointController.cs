@@ -23,11 +23,6 @@ public class PointController : MonoBehaviour
         {
             currentPointState = pointStates.clicked;
             original.sprite = spriteAfterClick;
-
-            //TO DO 
-            /*
-                Create the fade in fade out animation for the swithing of the sprite
-            */
         }
     }
 }
