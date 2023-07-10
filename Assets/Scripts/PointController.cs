@@ -28,10 +28,12 @@ public class PointController : MonoBehaviour
         if (pointInPointController.pointNumber == 1)
         {
             ChangeAfterCLick();
+            gameController.pointsToDrawLinesTo.Add(gameController.PrieviousClickedButtonNumber);
         }
         else if (gameController.PrieviousClickedButtonNumber == pointInPointController.pointNumber - 1)
         {
             ChangeAfterCLick();
+            gameController.pointsToDrawLinesTo.Add(gameController.PrieviousClickedButtonNumber);
         }        
     }
 

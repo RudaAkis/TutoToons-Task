@@ -161,7 +161,7 @@ MonoBehaviour:
   textRect: {fileID: 2385976932522292690, guid: fe64a9a0c3570ea49b0ed385cfda3c77, type: 3}
   PrieviousClickedButtonNumber: 0
   lineRenderer: {fileID: 2223394409018490299, guid: d153335c55fd2a6419e350c1bd5cc0ba, type: 3}
-  lineAnimationDuration: 5
+  lineAnimationDuration: 1.5
 --- !u!4 &81276753
 Transform:
   m_ObjectHideFlags: 0
@@ -387,7 +387,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 2147483647
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -562,7 +562,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 2147483647
 --- !u!114 &2133658187
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -604,7 +604,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
-  m_SortingLayerID: 0
+  m_SortingLayerID: 850541153
   m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!224 &2133658189

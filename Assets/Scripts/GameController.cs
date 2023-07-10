@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour
 
     public List<Point> points = new List<Point>();
     public List<GameObject> instantiatedPoints = new List<GameObject>();
+    public List<int> pointsToDrawLinesTo = new List<int>();
 
     public GameObject pointPrefab;
     public Camera camera;
@@ -27,17 +28,31 @@ public class GameController : MonoBehaviour
     public int PrieviousClickedButtonNumber = 0;
 
     public LineRenderer lineRenderer;
-    public float lineAnimationDuration = 5.0f;
+    public float lineAnimationDuration = 10f;
+    bool isDrawing = false;
 
     
     void Start()
     {
         dataHandlerScript = GameObject.FindGameObjectWithTag("DataHandler").GetComponent<DataHandler>();//Getting a reference to the script
         levelData = dataHandlerScript.LoadData();//Retrieving all of the data
-        points = AssignPointCoordinates(1);
+        points = AssignPointCoordinates(2);
         instantiatedPoints = createPointsOnScreen(points);
-        StartCoroutine(drawLine(instantiatedPoints));
+        //StartCoroutine(drawLine(instantiatedPoints, PrieviousClickedButtonNumber));
     }
+    void Update()
+    {   
+        UnityEngine.Debug.Log("Bool " + isDrawing );
+        UnityEngine.Debug.Log("List to draw  count " + pointsToDrawLinesTo.Count );
+        if (isDrawing == false && pointsToDrawLinesTo.Count > 1)
+        {
+            StartCoroutine(drawLine(instantiatedPoints, pointsToDrawLinesTo));
+            pointsToDrawLinesTo.RemoveAt(0);
+            pointsToDrawLinesTo.RemoveAt(1);
+            isDrawing = true;
+        }
+    }
+
     //Create a list of points
     public List<Point> AssignPointCoordinates(int arrayNumber)//Array number says which row of data is used from the json retrieved array of data
     {
@@ -82,16 +97,16 @@ public class GameController : MonoBehaviour
         return instantiatedPoints;
     }
     
-    public IEnumerator drawLine(List<GameObject> instantiatedPoints)
+    public IEnumerator drawLine(List<GameObject> instantiatedPoints, List<int> pointsToDrawLinesTo)
     {
-        lineRenderer = Instantiate(lineRenderer, instantiatedPoints.ElementAt(0).transform.position, Quaternion.identity);
-        float startTime = Time.time;
-        lineRenderer.SetPosition(0,instantiatedPoints.ElementAt(0).transform.position);
-        Vector3 startPosition = instantiatedPoints.ElementAt(0).transform.position;
-        Vector3 endPosition = instantiatedPoints.ElementAt(1).transform.position;
-
-        Vector3 pos = startPosition;
-
+        lineRenderer = Instantiate(lineRenderer, instantiatedPoints.ElementAt(0).transform.position, Quaternion.identity);//Create a new line
+        float startTime = Time.time;// Set the current start time
+        lineRenderer.SetPosition(0,instantiatedPoints.ElementAt(pointsToDrawLinesTo.ElementAt(0) -1 ).transform.position);// Set the instantiated lines position from which the line will be drawn
+        //Set the start and end vectors
+        Vector3 startPosition = instantiatedPoints.ElementAt(pointsToDrawLinesTo.ElementAt(0) -1).transform.position;
+        Vector3 endPosition = instantiatedPoints.ElementAt(pointsToDrawLinesTo.ElementAt(1) - 1).transform.position;
+        Vector3 pos = startPosition;//Vector that will extend during animation
+        //Lerp the line renderer until it reaches the end point in the given animation time
         while(pos != endPosition)
         {
             float t = (Time.time - startTime) / lineAnimationDuration;
@@ -99,7 +114,6 @@ public class GameController : MonoBehaviour
             lineRenderer.SetPosition(1, pos);
             yield return null;
         }
-
     }
     
 }
