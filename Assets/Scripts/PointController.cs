@@ -34,7 +34,8 @@ public class PointController : MonoBehaviour
         {
             ChangeAfterCLick();
             gameController.pointsToDrawLinesTo.Add(gameController.PrieviousClickedButtonNumber);
-        }        
+        }     
+        
     }
 
     public void ChangeAfterCLick()

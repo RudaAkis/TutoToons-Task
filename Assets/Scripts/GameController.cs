@@ -36,7 +36,7 @@ public class GameController : MonoBehaviour
     {
         dataHandlerScript = GameObject.FindGameObjectWithTag("DataHandler").GetComponent<DataHandler>();//Getting a reference to the script
         levelData = dataHandlerScript.LoadData();//Retrieving all of the data
-        points = AssignPointCoordinates(2);
+        points = AssignPointCoordinates(0);
         instantiatedPoints = createPointsOnScreen(points);
         //StartCoroutine(drawLine(instantiatedPoints, PrieviousClickedButtonNumber));
     }
