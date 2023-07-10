@@ -46,10 +46,10 @@ public class GameController : MonoBehaviour
         UnityEngine.Debug.Log("List to draw  count " + pointsToDrawLinesTo.Count );
         if (isDrawing == false && pointsToDrawLinesTo.Count > 1)
         {
+            isDrawing = true;
             StartCoroutine(drawLine(instantiatedPoints, pointsToDrawLinesTo));
             pointsToDrawLinesTo.RemoveAt(0);
-            pointsToDrawLinesTo.RemoveAt(1);
-            isDrawing = true;
+            
         }
     }
 
@@ -114,6 +114,7 @@ public class GameController : MonoBehaviour
             lineRenderer.SetPosition(1, pos);
             yield return null;
         }
+        isDrawing = false;
     }
     
 }
