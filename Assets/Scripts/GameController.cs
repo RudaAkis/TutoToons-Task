@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour
 
     public List<Point> points = new List<Point>();
     public List<GameObject> instantiatedPoints = new List<GameObject>();
+    public List<TextMeshProUGUI> instantiatedNumbers = new List<TextMeshProUGUI>();
     public List<int> pointsToDrawLinesTo = new List<int>();
 
     public GameObject pointPrefab;
@@ -21,7 +22,6 @@ public class GameController : MonoBehaviour
 
     public TextMeshProUGUI pointNumberText;
     public RectTransform textRect;
-    IDictionary<TextMeshProUGUI, GameObject> pointsAndPointNumbers = new Dictionary<TextMeshProUGUI, GameObject>();
 
     PointController pointController;
     [HideInInspector]
@@ -30,15 +30,17 @@ public class GameController : MonoBehaviour
     public LineRenderer lineRenderer;
     public float lineAnimationDuration = 10f;
     bool isDrawing = false;
+    int numberToDestroyCounter = 0;
 
     
     void Start()
     {
         dataHandlerScript = GameObject.FindGameObjectWithTag("DataHandler").GetComponent<DataHandler>();//Getting a reference to the script
         levelData = dataHandlerScript.LoadData();//Retrieving all of the data
-        points = AssignPointCoordinates(0);
+        points = AssignPointCoordinates(1);
         instantiatedPoints = createPointsOnScreen(points);
         //StartCoroutine(drawLine(instantiatedPoints, PrieviousClickedButtonNumber));
+
     }
     void Update()
     {   
@@ -49,7 +51,8 @@ public class GameController : MonoBehaviour
             isDrawing = true;
             StartCoroutine(drawLine(instantiatedPoints, pointsToDrawLinesTo));
             pointsToDrawLinesTo.RemoveAt(0);
-            
+            Destroy(instantiatedNumbers.ElementAt(numberToDestroyCounter));
+            numberToDestroyCounter++;
         }
     }
 
@@ -77,6 +80,7 @@ public class GameController : MonoBehaviour
             textRect.anchoredPosition = anchorPosition;
             instantiatedText.transform.SetParent(GameObject.FindGameObjectWithTag("Canvas").transform, false);
             instantiatedText.SetText(point.pointNumber.ToString());
+            instantiatedNumbers.Add(instantiatedText);
 
             //Instantiating the button object
             GameObject instantiatedObject = Instantiate(pointPrefab, button.anchoredPosition, Quaternion.identity);
@@ -115,6 +119,11 @@ public class GameController : MonoBehaviour
             yield return null;
         }
         isDrawing = false;
+    }
+
+    public void FadeOutDeleteNumber()
+    {
+        
     }
     
 }

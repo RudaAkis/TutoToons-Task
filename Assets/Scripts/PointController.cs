@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public class PointController : MonoBehaviour
 {
@@ -24,18 +25,23 @@ public class PointController : MonoBehaviour
     }
 
     public void PointClicked()
-    {
+    {   //If the point is the first point in the list of points
         if (pointInPointController.pointNumber == 1)
         {
             ChangeAfterCLick();
             gameController.pointsToDrawLinesTo.Add(gameController.PrieviousClickedButtonNumber);
-        }
+        }//If the point is last point clicked is equal to the current point minus 1
         else if (gameController.PrieviousClickedButtonNumber == pointInPointController.pointNumber - 1)
         {
             ChangeAfterCLick();
             gameController.pointsToDrawLinesTo.Add(gameController.PrieviousClickedButtonNumber);
-        }     
-        
+
+            if (gameController.points.ElementAt(gameController.points.Count - 1).pointNumber == pointInPointController.pointNumber)
+            {
+                gameController.pointsToDrawLinesTo.Add(gameController.PrieviousClickedButtonNumber);
+                gameController.pointsToDrawLinesTo.Add(1);
+            }
+        }//If the point is the last point in the instantiated list of points
     }
 
     public void ChangeAfterCLick()
@@ -48,15 +54,4 @@ public class PointController : MonoBehaviour
             gameController.PrieviousClickedButtonNumber = pointInPointController.pointNumber;
         }
     }
-
-
-    public void drawLine()
-    {
-
-    }
-
-    // public bool lineFinished()
-    // {
-
-    // }
 }
