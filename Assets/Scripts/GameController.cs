@@ -35,13 +35,17 @@ public class GameController : MonoBehaviour
 
   Animator textAnimator;
 
-
+  
   void Start()
   {
+
     dataHandlerScript = GameObject.FindGameObjectWithTag("DataHandler").GetComponent<DataHandler>();//Getting a reference to the script
     levelData = dataHandlerScript.LoadData();//Retrieving all of the data
-    points = AssignPointCoordinates(1);
-    instantiatedPoints = createPointsOnScreen(points);
+    if (level != 0)
+    {
+      points = AssignPointCoordinates(1);
+      instantiatedPoints = createPointsOnScreen(points);
+    }
     //StartCoroutine(drawLine(instantiatedPoints, PrieviousClickedButtonNumber));
 
   }

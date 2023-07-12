@@ -6,6 +6,7 @@ TagManager:
   tags:
   - DataHandler
   - Canvas
+  - MenuCanvas
   layers:
   - Default
   - TransparentFX
