@@ -4,23 +4,22 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
-    public int levelNumber;
-    GameController gameController;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+  public int levelNumber;
+  public GameController gameController;
+  // Start is called before the first frame update
+  void Start()
+  {
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+  }
 
-    public void assignLevel()
-    {
-        gameController = GameObject.FindGameObjectWithTag("Canvas").GetComponent<GameController>();
-        gameController.level = levelNumber;
-    }
+  // Update is called once per frame
+  void Update()
+  {
+
+  }
+
+  public void assignLevel()
+  {
+    gameController.level = levelNumber;
+  }
 }

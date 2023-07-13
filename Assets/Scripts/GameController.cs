@@ -34,25 +34,23 @@ public class GameController : MonoBehaviour
   public int level;
 
   Animator textAnimator;
+  bool hasRun = false;
 
-  
+
   void Start()
   {
-
+    level = -1;
     dataHandlerScript = GameObject.FindGameObjectWithTag("DataHandler").GetComponent<DataHandler>();//Getting a reference to the script
     levelData = dataHandlerScript.LoadData();//Retrieving all of the data
-    if (level != 0)
-    {
-      points = AssignPointCoordinates(1);
-      instantiatedPoints = createPointsOnScreen(points);
-    }
-    //StartCoroutine(drawLine(instantiatedPoints, PrieviousClickedButtonNumber));
-
   }
   void Update()
   {
-    UnityEngine.Debug.Log("Bool " + isDrawing);
-    UnityEngine.Debug.Log("List to draw  count " + pointsToDrawLinesTo.Count);
+    if (level != -1 && hasRun == false)
+    {
+      points = AssignPointCoordinates(level);
+      instantiatedPoints = createPointsOnScreen(points);
+      hasRun = true;
+    }
     if (isDrawing == false && pointsToDrawLinesTo.Count > 1)
     {
       isDrawing = true;
@@ -141,6 +139,11 @@ public class GameController : MonoBehaviour
   {
     yield return new WaitForSeconds(delay);
     Destroy(textToDestroy);
+  }
+
+  public void SetLevel(int levelNum)
+  {
+    level = levelNum;
   }
 
 }
