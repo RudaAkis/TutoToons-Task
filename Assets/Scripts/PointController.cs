@@ -23,27 +23,27 @@ public class PointController : MonoBehaviour
   {
     gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
   }
-
+  //Determine which point has been clicked and perform actions accordingly
   public void PointClicked()
   {   //If the point is the first point in the list of points
     if (pointInPointController.pointNumber == 1)
     {
       ChangeAfterCLick();
       gameController.pointsToDrawLinesTo.Add(gameController.PrieviousClickedButtonNumber);
-    }//If the point is last point clicked is equal to the current point minus 1
+    }//If the previous point clicked is directly smaller by one than the current point clicked
     else if (gameController.PrieviousClickedButtonNumber == pointInPointController.pointNumber - 1)
     {
       ChangeAfterCLick();
       gameController.pointsToDrawLinesTo.Add(gameController.PrieviousClickedButtonNumber);
-
+      //If the point is the last point in the instantiated list of points
       if (gameController.points.ElementAt(gameController.points.Count - 1).pointNumber == pointInPointController.pointNumber)
       {
         gameController.pointsToDrawLinesTo.Add(gameController.PrieviousClickedButtonNumber);
         gameController.pointsToDrawLinesTo.Add(1);
       }
-    }//If the point is the last point in the instantiated list of points
+    }
   }
-
+  //Change the sprite of the button after it has been clicked
   public void ChangeAfterCLick()
   {
     if (currentPointState == pointStates.unclicked)

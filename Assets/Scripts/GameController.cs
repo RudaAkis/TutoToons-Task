@@ -10,28 +10,28 @@ public class GameController : MonoBehaviour
   DataHandler dataHandlerScript;
   LevelData levelData;
 
-  public List<Point> points = new List<Point>();
-  public List<GameObject> instantiatedPoints = new List<GameObject>();
-  public List<TextMeshProUGUI> instantiatedNumbers = new List<TextMeshProUGUI>();
-  public List<int> pointsToDrawLinesTo = new List<int>();
+  public List<Point> points = new List<Point>();//List of point coordinates with their point number
+  public List<GameObject> instantiatedPoints = new List<GameObject>();//List of game objects(buttons) that are instantiated at their point coordinates
+  public List<TextMeshProUGUI> instantiatedNumbers = new List<TextMeshProUGUI>();//List of text objects used to display the point number and fading it out after the line is drawn
+  public List<int> pointsToDrawLinesTo = new List<int>();//Dynamic list that will receive all the points that have been clicked to store until a line is drawn between them
 
-  public GameObject pointPrefab;
+  public GameObject pointPrefab;// Object that will be instantiated to be seen and cliked on screen
   public Camera camera;
-  public RectTransform parentCanvas;
-  public RectTransform button;
+  public RectTransform parentCanvas;//Used to correctly place the point on screen
+  public RectTransform button;//Used to correctly place the point on screen
 
   public TextMeshProUGUI pointNumberText;
-  public RectTransform textRect;
+  public RectTransform textRect;//Used to correctly place the point on screen
 
-  PointController pointController;
+  PointController pointController;//Script compoent variable
   [HideInInspector]
   public int PrieviousClickedButtonNumber = 0;
 
   public LineRenderer lineRenderer;
-  public float lineAnimationDuration = 10f;
-  bool isDrawing = false;
+  public float lineAnimationDuration;
+  bool isDrawing = false;// Used to determine when one line is drawn
   int numberToDestroyCounter = 0;
-  public int level;
+  public int level;// The level that is assigned when a button is pressed in the menu Panel
 
   Animator textAnimator;
   bool hasRun = false;
@@ -44,7 +44,7 @@ public class GameController : MonoBehaviour
     levelData = dataHandlerScript.LoadData();//Retrieving all of the data
   }
   void Update()
-  {
+  { //If the level is not negative and the methods has not run yet instantiate the points in their lecoations
     if (level != -1 && hasRun == false)
     {
       points = AssignPointCoordinates(level);
@@ -116,7 +116,7 @@ public class GameController : MonoBehaviour
     Vector3 startPosition = instantiatedPoints.ElementAt(pointsToDrawLinesTo.ElementAt(0) - 1).transform.position;
     Vector3 endPosition = instantiatedPoints.ElementAt(pointsToDrawLinesTo.ElementAt(1) - 1).transform.position;
     Vector3 pos = startPosition;//Vector that will extend during animation
-                                //Lerp the line renderer until it reaches the end point in the given animation time
+    //Lerp the line renderer until it reaches the end point in the given animation time
     while (pos != endPosition)
     {
       float t = (Time.time - startTime) / lineAnimationDuration;
@@ -124,9 +124,9 @@ public class GameController : MonoBehaviour
       lineRenderer.SetPosition(1, pos);
       yield return null;
     }
-    isDrawing = false;
+    isDrawing = false;//Set is drawing to false to allow the next line to be drawn
   }
-
+  //Animate the number to fade out of visibility (change the alpha value from 255 to 0)
   public void FadeOutDeleteNumber(int numberToDestroyCounter, List<TextMeshProUGUI> instantiatedNumbers)
   {
     //Retrieve the animator component of the text field at the counter
@@ -134,18 +134,12 @@ public class GameController : MonoBehaviour
     textAnimator.SetBool("canFade", true);
     destroyAfterDelay(1.5f, instantiatedNumbers.ElementAt(numberToDestroyCounter));
   }
-
+  //Destroy the text object after a delay
   public IEnumerator destroyAfterDelay(float delay, TextMeshProUGUI textToDestroy)
   {
     yield return new WaitForSeconds(delay);
     Destroy(textToDestroy);
   }
-
-  public void SetLevel(int levelNum)
-  {
-    level = levelNum;
-  }
-
 }
 
 // buttonText = instantiatedObject.GetComponent<TextMeshProUGUI>();
